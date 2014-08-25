@@ -1,8 +1,8 @@
 define([
         'jquery',
         'backbone',
-        'collections/studentCollection'
-        ], function( $, Backbone,studentCollection) {
+        'models/studentModel'
+        ], function( $, Backbone,studentModel) {
        
 		var view=Backbone.View.extend({
 								el: $("#studentList"),
@@ -10,11 +10,15 @@ define([
 							            console.log("student view initialized");
 							            this.$el.html('');
 							           // this.collection=studentCollection;
-							            this.collection.bind('change',this.render)
+							            this.collection.bind('add',this.render);
 							            this.render();
 
+							           
+
+							            
 							        },
 							     render:function(){
+							     	console.log("collection=="+JSON.stringify(this.collection));
 							     	console.log("inside rendeo")
 								     	_(this.collection.models).each(function(item){
 								     		htm='<div>NAME:'+item.get("name")+'</div><div>AGE:'+item.get("age")+'</div><br/>';
@@ -22,7 +26,8 @@ define([
 								     		console.log("htm=="+htm);
 
 								     	})
-							    	}
+							    	},
+							    	
 						})
 		return view;
 });

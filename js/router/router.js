@@ -10,6 +10,7 @@ define([
        var appRouter = Backbone.Router.extend({
 
              routes: {
+                   ""     :"fetching",
              	"listName": "listName",
 	            "listNameAndAge": "listNameAndAge"
 	            
@@ -32,9 +33,11 @@ define([
 				student3.set({ name: "Rahul", age: 40});
 				var studentCollection1=new studentCollection([student1,student2,student3]);
 				var studentView1=new studentView({ collection:studentCollection1});
+                 
 				setTimeout(function () {
+                   
 					console.log("inside settimeout");
-					studentCollection1.pop();
+					
 					
 				},3000);
 
@@ -49,7 +52,28 @@ define([
 				student3.set({ name: "Rahul", age: 40});
 				var studentCollection1=new studentCollection([student1,student2,student3]);
 				var studentView1=new studentView({ model:student1});
-        	}
+        	},
+            fetching:function(){
+                 var UserModel = Backbone.Model.extend({
+                         urlRoot: 'http://localhost:8080/api',
+                         defaults: {
+                            nombre: '',
+                            email: ''
+                        }
+                 });
+                var userDetails = {
+                    nombre: 'José',
+                    email: 'jall@gmail.com'
+                };
+                var user = new UserModel(userDetails);
+
+            user.fetch({
+                success: function (user) {
+                    console.log(user.toJSON());
+                }
+            });
+
+            }
         	
         });
 
